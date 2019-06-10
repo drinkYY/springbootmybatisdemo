@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.springbootMybatisdemo2.entity.User;
 import com.example.springbootMybatisdemo2.service.UserService;
@@ -16,16 +17,23 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
-	
+	/**
+	 * 跳转到登录页
+	 * @return
+	 */
 	@RequestMapping(value="/login")
 	public String dologin(){
 		return "login";
 	}
+	/**
+	 * 跳转到注册页
+	 * @return
+	 */
 	@RequestMapping(value="/register")
 	public String doregister(){
 		return "register";
 	}
-	@RequestMapping(value="/doregister")
+	@RequestMapping(value="/doregister",method = RequestMethod.POST)
 	public String register(User user, Model model){
 		System.out.println("user:" + user);
 		
@@ -35,11 +43,11 @@ public class UserController {
 			model.addAttribute("msg", "注册失败！！");
 			return "fail";
 		}else {
-			return "register";
+			return "login";
 		}
 	}
 	
-	@RequestMapping(value="/dologin")
+	@RequestMapping(value="/dologin",method = RequestMethod.POST)
 	public String login(User user, Model model){
 		System.out.println("user:" + user);
 		User user1 = userService.selectUser(user) ;
